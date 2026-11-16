@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Whale.Api/Whale.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Whale.Api.Tests/Whale.Api.Tests.csproj" />
+  </Folder>
+</Solution>
