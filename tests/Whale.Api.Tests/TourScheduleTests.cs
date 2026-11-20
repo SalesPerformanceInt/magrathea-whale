@@ -21,6 +21,20 @@ public sealed class TourScheduleTests
     }
 
     [TestMethod]
+    public void TEST1_16_Today_InTheHarborEvening_StillListsTonightsDepartures()
+    {
+        // 8:00 PM at the harbor on Monday: UTC has already rolled over to Tuesday,
+        // but the departures list should still show Monday's tours.
+        var clock = new FixedTime(Harbor.At(TestData.Monday, new TimeOnly(20, 0)));
+        var store = SeedData.CreateStore(clock);
+        var schedule = new TourSchedule(store, clock);
+
+        var today = schedule.Today();
+
+        CollectionAssert.AreEqual(new[] { 202611161, 202611162 }, today.Select(t => t.Id).ToArray());
+    }
+
+    [TestMethod]
     public void SeatsTaken_CountsConfirmedBookingsOnly()
     {
         var tour = TestData.Sunset(TestData.Monday);
