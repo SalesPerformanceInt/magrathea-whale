@@ -21,6 +21,20 @@ public sealed class TourScheduleTests
     }
 
     [TestMethod]
+    public void TEST1_27_Today_InTheEvening_StillListsTonightsDepartures()
+    {
+        // After about 7 PM harbor time (EST is UTC-5, so 8 PM local is already
+        // tomorrow in UTC) the departures list must still show tonight's tours.
+        var eveningTime = new FixedTime(Harbor.At(TestData.Monday, new TimeOnly(20, 0)));
+        var store = SeedData.CreateStore(eveningTime);
+        var schedule = new TourSchedule(store, eveningTime);
+
+        var today = schedule.Today();
+
+        CollectionAssert.AreEqual(new[] { 202611161, 202611162 }, today.Select(t => t.Id).ToArray());
+    }
+
+    [TestMethod]
     public void SeatsTaken_CountsConfirmedBookingsOnly()
     {
         var tour = TestData.Sunset(TestData.Monday);
